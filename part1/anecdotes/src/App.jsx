@@ -13,10 +13,11 @@ const App = () => {
   ];
   const [points, setPoints] = useState(new Array(anecdotes.length).fill(0));
   const [selected, setSelected] = useState(0);
+  const [highest, setHighest] = useState(0);
 
-  console.log(points);
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <div>{anecdotes[selected]}</div>
       <br />
       <div>has {points[selected]} votes</div>
@@ -26,6 +27,7 @@ const App = () => {
           const newPoints = [...points];
           newPoints[selected] += 1;
           setPoints(newPoints);
+          setHighest(points.indexOf(Math.max(...points)));
         }}
       >
         Vote
@@ -38,6 +40,12 @@ const App = () => {
       >
         Next anecdotes
       </button>
+      <br />
+      <h1>Anecdote with most votes</h1>
+      <div>{anecdotes[highest]}</div>
+      <br />
+      <div>has {points[highest]} votes</div>
+      <br />
     </>
   );
 };
