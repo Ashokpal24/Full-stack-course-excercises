@@ -1,19 +1,12 @@
 ```mermaid
 sequenceDiagram
+participant User as User
 participant Browser as Browser
 participant Server as Server
 
-Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
-activate Server
-Server-->>Browser: HTTP Status Code 302 (Redirect) and Header: Location = /exampleapp/notes
-deactivate Server
-
-Note over Browser,Server: HTTP Status Code 302 (Redirect) is used by server to task <br/> the browser to make the get request to the address defined in header
-
-
 Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/notes
 activate Server
-Server-->>Browser: HTML document and Reloads Notes Page
+Server-->>Browser: HTML document
 deactivate Server
 
 Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
@@ -32,6 +25,13 @@ Browser->>Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
 activate Server
 Server-->>Browser: [{"content": "101","date": "2023-09-16T09:21:57.017Z"}, ... ] <br/> with HTTP Status Code 200 OK
 deactivate Server
+Browser->>Browser: render the first list of notes based on JSON response of server
 
-Note right of Browser: The Browser executes the callback function that renders the notes
+User->>Browser: User adds new note in the form and submits
+Browser->>Browser: update the data structure(Array) for notes
+Browser->>Browser: Execute JavaScript code to re-render the list of notes base on updated Array
+
+Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Note left of Server: The notes are being updated in server but there is no redirect to task GET to browser
+
 ```
