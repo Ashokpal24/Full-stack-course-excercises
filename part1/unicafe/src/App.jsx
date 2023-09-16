@@ -3,7 +3,15 @@ import { useState } from "react";
 const Statistics = ({ good, bad, neutral, total }) => {
   if (total) {
     return (
-      <>
+      <table>
+        <tr>
+          <th style={{ backgroundColor: "#cccccc", border: "1px solid" }}>
+            Statistics
+          </th>
+          <th style={{ backgroundColor: "#cccccc", border: "1px solid" }}>
+            Value
+          </th>
+        </tr>
         <StatisticsLine text={"Good"} value={good} />
         <StatisticsLine text={"Neutral"} value={neutral} />
         <StatisticsLine text={"Bad"} value={bad} />
@@ -16,7 +24,7 @@ const Statistics = ({ good, bad, neutral, total }) => {
           text={"Positive Percentage"}
           value={`${(good / total) * 100} %`}
         />
-      </>
+      </table>
     );
   }
   return <p>No feedback given</p>;
@@ -24,9 +32,14 @@ const Statistics = ({ good, bad, neutral, total }) => {
 
 const StatisticsLine = ({ text, value }) => {
   return (
-    <p>
-      {text}: {value}
-    </p>
+    <tr>
+      <td style={{ backgroundColor: "#e8e8e8", border: "1px solid" }}>
+        {text}
+      </td>
+      <td style={{ backgroundColor: "#e8e8e8", border: "1px solid" }}>
+        {value}
+      </td>
+    </tr>
   );
 };
 
