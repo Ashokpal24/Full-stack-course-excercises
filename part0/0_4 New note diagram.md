@@ -1,7 +1,10 @@
 ```mermaid
 sequenceDiagram
+participant User as User
 participant Browser as Browser
 participant Server as Server
+
+User->>Browser: User adds new note in the form and submits
 
 Browser->>Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
 activate Server
