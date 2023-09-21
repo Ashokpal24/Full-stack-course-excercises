@@ -24,15 +24,12 @@ const Content = (props) => {
 };
 
 const Total = (props) => {
-  // console.log(props);
-  return (
-    <strong>
-      Number of exercises{" "}
-      {props.parts[0].exercises +
-        props.parts[1].exercises +
-        props.parts[2].exercises}
-    </strong>
-  );
+  console.log(props.parts);
+  const total = props.parts.reduce((acc, { exercises }) => {
+    console.log(acc, exercises);
+    return acc + exercises;
+  }, 0);
+  return <strong>Number of exercises {total}</strong>;
 };
 
 const Course = (props) => {
@@ -44,6 +41,7 @@ const Course = (props) => {
     </>
   );
 };
+
 const App = () => {
   const course = {
     id: 1,
