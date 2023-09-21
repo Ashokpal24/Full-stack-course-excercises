@@ -15,6 +15,70 @@ const Input = ({ text, value, setValue }) => {
   );
 };
 
+const Button = ({
+  newName,
+  setNewName,
+  newNumber,
+  setNewNumber,
+  persons,
+  setPersons,
+}) => {
+  const handleSubmit = (event) => {
+    if (persons.filter((person) => person.name === newName).length > 0) {
+      alert(`${newName} is already added to phonebook`);
+    } else {
+      event.preventDefault();
+      const newObject = { name: newName, number: newNumber };
+      setPersons(persons.concat(newObject));
+      setNewName("");
+      setNewNumber("");
+    }
+  };
+
+  return (
+    <div>
+      <button type="submit" onClick={handleSubmit}>
+        add
+      </button>
+    </div>
+  );
+};
+
+const Display = ({ personToShow }) => {
+  return (
+    <>
+      {personToShow.map((person) => (
+        <div key={person.name}>
+          {person.name} | {person.number}
+        </div>
+      ))}
+    </>
+  );
+};
+
+const Form = ({
+  newName,
+  setNewName,
+  newNumber,
+  setNewNumber,
+  persons,
+  setPersons,
+}) => {
+  return (
+    <>
+      <Input text={"Name"} value={newName} setValue={setNewName} />
+      <Input text={"Number"} value={newNumber} setValue={setNewNumber} />
+      <Button
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+        persons={persons}
+        setPersons={setPersons}
+      />
+    </>
+  );
+};
 const App = () => {
   const [persons, setPersons] = useState([
     { name: "Arto Hellas", number: "040-123456", id: 1 },
@@ -27,17 +91,6 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
 
-  const handleSubmit = (event) => {
-    if (persons.filter((person) => person.name === newName).length > 0) {
-      alert(`${newName} is already added to phonebook`);
-    } else {
-      event.preventDefault();
-      const newObject = { name: newName, number: newNumber };
-      setPersons(persons.concat(newObject));
-      setNewName("");
-      setNewNumber("");
-    }
-  };
   // filter on every reload
   const filteredArray = persons.filter((person) => {
     console.log(person.name.toLowerCase().includes(filterName));
@@ -50,23 +103,16 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <Input text={"Filter"} value={filterName} setValue={setFilterName} />
-      <form>
-        <div>
-          <Input text={"Name"} value={newName} setValue={setNewName} />
-          <Input text={"Number"} value={newNumber} setValue={setNewNumber} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleSubmit}>
-            add
-          </button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {personToShow.map((person) => (
-        <div key={person.name}>
-          {person.name} | {person.number}
-        </div>
-      ))}
+      <Form
+        newName={newName}
+        setNewName={setNewName}
+        newNumber={newNumber}
+        setNewNumber={setNewNumber}
+        persons={persons}
+        setPersons={setPersons}
+      />
+      <h3>Numbers</h3>
+      <Display personToShow={personToShow} />
     </div>
   );
 };
